@@ -50,7 +50,12 @@ jobs:
         with:
           version:
             ${{ env.KOSLI_CLI_VERSION }}
-      
+
+      - name: Clone repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 1
+          
       - name: Create kosli flow
         run: kosli create flow ${{ env.KOSLI_FLOW }} --use-empty-template
 
