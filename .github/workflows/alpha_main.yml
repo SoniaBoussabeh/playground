@@ -19,6 +19,7 @@ env:
   KOSLI_HOST: ${{ vars.KOSLI_HOST }}
   KOSLI_ORG: ${{ vars.KOSLI_ORG }}
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  KOSLI_FLOW: playground-alpha-ci
 
 jobs:
 
@@ -43,6 +44,18 @@ jobs:
           echo "image_name=${image_name}" >> ${GITHUB_OUTPUT}          
           echo "tagged_image_previous=${tagged_image_previous}" >> ${GITHUB_OUTPUT}
           echo "image_tar_filename=${image_tar_filename}" >> ${GITHUB_OUTPUT}
+    
+    - name: Setup Kosli cli
+      uses: kosli-dev/setup-cli-action@v2
+      with:
+        version:
+          ${{ env.KOSLI_CLI_VERSION }}
+    
+    - name: Create kosli flow
+      run: kosli create flow ${{ env.KOSLI_FLOW }} --use-emplty-template
+
+    - name: Begin kosli trail
+      run: kosli begin trail ${{ github.sha }} --flow ${{ env.KOSLI_FLOW }}
 
   build:
     name: Build docker image and push it to registry
