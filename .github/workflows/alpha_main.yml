@@ -52,7 +52,7 @@ jobs:
             ${{ env.KOSLI_CLI_VERSION }}
       
       - name: Create kosli flow
-        run: kosli create flow ${{ env.KOSLI_FLOW }} --use-emplty-template
+        run: kosli create flow ${{ env.KOSLI_FLOW }} --use-empty-template
 
       - name: Begin kosli trail
         run: kosli begin trail ${{ github.sha }} --flow ${{ env.KOSLI_FLOW }}
