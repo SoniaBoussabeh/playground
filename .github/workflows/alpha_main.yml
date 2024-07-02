@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 1
-          
+
       - name: Create kosli flow
         run: kosli create flow ${{ env.KOSLI_FLOW }} --use-empty-template
 
@@ -106,6 +106,18 @@ jobs:
       with:
         path: ${{ needs.setup.outputs.image_tar_filename }}
         key: ${{ needs.setup.outputs.image_name }}
+    - name: Setup Kosli cli
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version:
+            ${{ env.KOSLI_CLI_VERSION }}
+    - name: Attest artifact provenance to Kosli
+      run: |
+        kosli attest artifact ${{ needs.setup.outputs.mage_name }} \
+          --artifact-type=docker \
+          --flow=${{ env.KOSLI_FLOW }} \
+          --trail=${{ github.sha }} \
+          --name=alpha
 
   lint:
     name: Run rubocop linter
