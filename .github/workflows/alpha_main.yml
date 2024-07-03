@@ -123,7 +123,7 @@ jobs:
 
   lint:
     name: Run rubocop linter
-    needs: [build]
+    needs: [build,setup]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4.1.1
@@ -140,7 +140,7 @@ jobs:
       with:
         version:
           ${{ env.KOSLI_CLI_VERSION }}
-          
+
     - name: Attest lint provenance to Kosli
       run: kosli attest generic ${{ needs.setup.outputs.image_name }} --artifact-type=docker --flow=${{ env.KOSLI_FLOW }} --trail=${{ github.sha }} --name=alpha.generic-lint
 
