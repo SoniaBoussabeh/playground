@@ -57,7 +57,7 @@ jobs:
           fetch-depth: 1
 
       - name: Create kosli flow
-        run: kosli create flow ${{ env.KOSLI_FLOW }} --use-empty-template
+        run: kosli create flow ${{ env.KOSLI_FLOW }} --template-file alpha/.kosli.yml
 
       - name: Begin kosli trail
         run: kosli begin trail ${{ github.sha }} --flow ${{ env.KOSLI_FLOW }}
