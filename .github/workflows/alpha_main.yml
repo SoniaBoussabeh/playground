@@ -135,6 +135,15 @@ jobs:
         cd "${{ env.SERVICE_NAME }}"
         make lint
 
+    - name: Setup Kosli cli
+      uses: kosli-dev/setup-cli-action@v2
+      with:
+        version:
+          ${{ env.KOSLI_CLI_VERSION }}
+          
+    - name: Attest lint provenance to Kosli
+      run: kosli attest generic ${{ needs.setup.outputs.image_name }} --artifact-type=docker --flow=${{ env.KOSLI_FLOW }} --trail=${{ github.sha }} --name=alpha.generic-lint
+
   deploy:
     runs-on: ubuntu-latest
     needs: [setup, build, lint]
