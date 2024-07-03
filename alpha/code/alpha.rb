@@ -8,7 +8,9 @@ class Alpha < Sinatra::Base
   get '/' do
     'Kosli'
   end
-
+  get '/kosli' do
+    'Hello new endpoint Kosli'
+  end
   get '/ready' do
     Prober.new.ready?
   end
