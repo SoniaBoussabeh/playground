@@ -142,7 +142,9 @@ jobs:
           ${{ env.KOSLI_CLI_VERSION }}
 
     - name: Attest lint provenance to Kosli
-      run: kosli attest generic ${{ needs.setup.outputs.image_name }} --artifact-type=docker --flow=${{ env.KOSLI_FLOW }} --trail=${{ github.sha }} --name=alpha.generic-lint
+      run: |
+        docker pull ${{ needs.setup.outputs.image_name }} 
+        kosli attest generic ${{ needs.setup.outputs.image_name }} --artifact-type=docker --flow=${{ env.KOSLI_FLOW }} --trail=${{ github.sha }} --name=alpha.generic-lint
 
   deploy:
     runs-on: ubuntu-latest
